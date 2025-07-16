@@ -13,7 +13,7 @@
 
 1. 克隆仓库
 ```bash
-git clone https://github.com/yourusername/code-obfuscator.git
+git clone https://github.com/programming666/code-obfuscator
 cd code-obfuscator
 ```
 
