@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="./icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代码混淆工具 - API帮助文档</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./codemirror.min.css">
+  <link rel="stylesheet" href="./dracula.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>API帮助文档</h1>
+      <p>使用代码混淆工具的API接口连接指南</p>
+    </header>
+
+    <div class="main-content">
+      <div class="api-nav">
+        <h3>目录</h3>
+        <ul>
+          <li><a href="#overview">API概述</a></li>
+          <li><a href="#basic-info">基础信息</a></li>
+          <li><a href="#parameters">请求参数</a></li>
+          <li><a href="#response">响应格式</a></li>
+          <li><a href="#examples">使用示例</a></li>
+          <li><a href="#errors">错误码</a></li>
+        </ul>
+      </div>
+      <div class="options-panel">
+        <div class="api-section" id="overview">
+          <h2>API概述</h2>
+          <p>代码混淆工具提供RESTful API接口，允许开发者通过HTTP请求集成代码混淆功能到自己的应用中。</p>
+        </div>
+
+        <div class="api-section" id="basic-info">
+          <h2>基础信息</h2>
+          <ul>
+            <li><strong>基础URL:</strong> <code>/api</code></li>
+            <li><strong>支持方法:</strong> POST</li>
+            <li><strong>内容类型:</strong> application/json</li>
+          </ul>
+        </div>
+
+        <div class="api-section" id="parameters">
+          <h2>请求参数</h2>
+          <table class="api-table">
+            <tr><th>参数名</th><th>类型</th><th>必填</th><th>描述</th></tr>
+            <tr><td>code</td><td>string</td><td>是</td><td>需要混淆的源代码</td></tr>
+            <tr><td>language</td><td>string</td><td>是</td><td>编程语言，支持: javascript, typescript, c, cpp, python</td></tr>
+            <tr><td>options</td><td>object</td><td>否</td><td>混淆选项配置</td></tr>
+          </table>
+        </div>
+
+        <div class="api-section" id="response">
+          <h2>响应格式</h2>
+          <table class="api-table">
+            <tr><th>参数名</th><th>类型</th><th>描述</th></tr>
+            <tr><td>success</td><td>boolean</td><td>请求是否成功</td></tr>
+            <tr><td>data</td><td>object</td><td>响应数据对象</td></tr>
+            <tr><td>data.obfuscatedCode</td><td>string</td><td>混淆后的代码</td></tr>
+            <tr><td>message</td><td>string</td><td>错误信息（当success为false时）</td></tr>
+          </table>
+        </div>
+
+        <div class="api-section" id="examples">
+          <h2>使用示例</h2>
+          <h3>JavaScript示例</h3>
+          <div class="code-container">
+          <button class="copy-btn" onclick="copyCode(this)">复制代码</button>
+          <pre><code class="language-javascript">async function obfuscateCode() {
+  const response = await fetch('/api/obfuscate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      code: 'function add(a, b) { return a + b; }',
+      language: 'javascript',
+      options: { renameVariables: true, addJunkCode: true }
+    })
+  });
+
+  const result = await response.json();
+  if (result.success) {
+    console.log('混淆后的代码:', result.data.obfuscatedCode);
+  } else {
+    console.error('错误:', result.message);
+  }
+}</code></pre>
+        </div>
+        </div>
+
+          <h3>Python示例</h3>
+          <div class="code-container">
+          <button class="copy-btn" onclick="copyCode(this)">复制代码</button>
+          <pre><code class="language-python">import requests
+import json
+
+url = '/api/obfuscate'
+data = {
+    'code': 'def add(a, b): return a + b',
+    'language': 'python',
+    'options': {'renameVariables': True, 'addJunkCode': True}
+}
+
+response = requests.post(url, json=data)
+result = response.json()
+
+if result['success']:
+    print('混淆后的代码:', result['data']['obfuscatedCode'])
+else:
+    print('错误:', result['message'])</code></pre>
+        </div>
+
+        <div class="api-section" id="errors">
+          <h2>错误码</h2>
+          <table class="api-table">
+            <tr><th>错误码</th><th>描述</th></tr>
+            <tr><td>400</td><td>请求参数错误</td></tr>
+            <tr><td>415</td><td>不支持的媒体类型</td></tr>
+            <tr><td>500</td><td>服务器内部错误</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>代码混淆工具 &copy; 2025 - 保护您的源代码安全</p>
+    </footer>
+  </div>
+
+  <script src="./codemirror.min.js"></script>
+  <script src="./javascript.min.js"></script>
+  <script src="./clike.min.js"></script>
+  <script src="./python.min.js"></script>
+  <script>
+    // 初始化代码高亮
+    document.querySelectorAll('pre code').forEach(block => {
+      const language = block.className.replace('language-', '');
+      // 根据语言设置正确的mode
+      let mode;
+      if (language === 'javascript') mode = 'javascript';
+      else if (language === 'python') mode = 'python';
+      else if (['c', 'cpp'].includes(language)) mode = 'text/x-csrc';
+      else mode = language;
+
+      // 创建textarea元素并替换pre标签
+      const textarea = document.createElement('textarea');
+      textarea.value = block.textContent;
+      block.parentNode.replaceChild(textarea, block);
+
+      CodeMirror.fromTextArea(textarea, {
+        mode: mode,
+        readOnly: true,
+        lineNumbers: true,
+        theme: 'dracula',
+        lineWrapping: true
+      });
+    });
+
+    // 复制代码功能
+    function copyCode(button) {
+      // 找到最近的CodeMirror实例
+      const cmElement = button.closest('.code-container').querySelector('.CodeMirror');
+      const cm = cmElement.CodeMirror;
+      const code = cm.getValue();
+
+      // 使用Clipboard API复制代码
+      navigator.clipboard.writeText(code).then(() => {
+        // 显示复制成功反馈
+        const originalText = button.textContent;
+        button.textContent = '复制成功!';
+        button.style.backgroundColor = 'var(--secondary-color)';
+        button.style.zIndex = '100'; // 确保按钮显示在最上层
+
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.backgroundColor = '';
+        }, 2000);
+      }).catch(err => {
+        console.error('复制失败:', err);
+        button.textContent = '复制失败';
+        setTimeout(() => {
+          button.textContent = '复制代码';
+        }, 2000);
+      });
+    }
+
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 20,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
