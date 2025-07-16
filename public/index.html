@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="./icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代码混淆工具</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./codemirror.min.css">
+  <link rel="stylesheet" href="./dracula.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>代码混淆工具</h1>
+      <p>支持多种编程语言的代码混淆，保护您的知识产权</p>
+    </header>
+
+    <div class="main-content">
+      <div class="options-panel">
+        <div class="language-selector">
+          <label for="language">选择编程语言:</label>
+          <select id="language">
+            <option value="javascript">JavaScript</option>
+            <option value="typescript">TypeScript</option>
+            <option value="c">C</option>
+            <option value="cpp">C++</option>
+            <option value="python">Python</option>
+          </select>
+        </div>
+
+        <div class="file-upload">
+          <label for="file-input">上传文件:</label>
+          <input type="file" id="file-input">
+        </div>
+
+        <div class="action-buttons">
+          <button id="obfuscate-btn" class="primary-btn">混淆代码</button>
+          <button id="copy-btn" class="secondary-btn">复制结果</button>
+          <button id="download-btn" class="secondary-btn">下载结果</button>
+          <button id="clear-btn" class="secondary-btn">清空</button>
+        </div>
+      </div>
+
+      <div class="code-panels">
+        <div class="code-panel">
+          <h3>原始代码</h3>
+          <div id="original-code"></div>
+        </div>
+        <div class="code-panel">
+          <h3>混淆后代码</h3>
+          <div id="obfuscated-code"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="spinner"></div>
+      <p>正在混淆代码...</p>
+    </div>
+
+    <footer>
+      <p>代码混淆工具 &copy; 2025 - 保护您的源代码安全</p>
+    </footer>
+  </div>
+
+  <!-- 引入 CodeMirror 库 -->
+  <script src="./codemirror.min.js"></script>
+  <script src="./javascript.min.js"></script>
+  <script src="./clike.min.js"></script>
+  <script src="./python.min.js"></script>
+  
+  <!-- 引入自定义 JavaScript -->
+  <script src="./script.js"></script>
+</body>
+</html>
